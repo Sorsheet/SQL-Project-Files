@@ -4,6 +4,8 @@ create database Blood_Donation
 
 create table Patients(Patient_Name varchar(50), Unique_ID int Primary Key, Blood_group varchar(10), Disease varchar(50));
 
+--Inserting values in the Patients table--
+
 insert into Patients(Patient_Name, Unique_ID, Blood_group, Disease) 
 values('Jessica Garcia', 1001, 'A+', 'Allergies'),
     ('Daniel Martinez', 1002, 'B-', 'Eczema'),
@@ -34,6 +36,8 @@ create table Donors (
     Contact_Number varchar(15)
 );
 
+--Inserting values in the Donors table--
+
 insert into Donors (Unique_ID, Donor_Name, Blood_Group, Medical_Report, Donor_Address, Contact_Number)
 values
     (2001, 'John Smith', 'O+', 'Good', '123 Main Street, City, Country', '+1234567890'),
@@ -62,6 +66,8 @@ create table Blood_Banks (
     Bank_Address varchar(100)
 );
 
+--Inserting values in the Blood_Banks table--
+
 insert into Blood_Banks (Blood_Bank_ID, Blood_Bank_Name, Bank_Address)
 values
     (3001, 'Red Cross Blood Bank', '123 Main Street, City, Country'),
@@ -82,6 +88,8 @@ create table Blood_Bank_Donors (
     Contact_Number varchar(15),
     foreign key (Blood_Bank_ID) references Blood_Banks(Blood_Bank_ID));
 
+--Inserting values in the Blood_Bank_Donors table--
+
 insert into Blood_Bank_Donors (Donor_ID, Blood_Bank_ID, Donor_Name, Bank_Address, Contact_Number)
 values
     (4001, 3001, 'John Smith', '123 Main Street, City, Country', '+1234567890'),
@@ -98,7 +106,7 @@ values
 select * from Blood_Bank_Donors;
 
 
--- Checking the compatibility between donors and Recipients--
+--1. Checking the compatibility between donors and Recipients--
 
 select
     R.Patient_Name as Recipient_Name,
@@ -121,7 +129,7 @@ join
 order by
     R.Patient_Name, D.Donor_Name;
 
---Corresponding Bank for each Donor--
+--2.Corresponding Bank for each Donor--
 
 select 
      D.Donor_Name as Donor,

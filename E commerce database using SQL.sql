@@ -1,7 +1,12 @@
+--Creating databse--
+
 CREATE DATABASE E_commerceDatabase
 
+--Selecting the required databse to insert data--
+	
 USE E_commerceDatabase;
 
+--Create Table of Category of Products--
 
 CREATE TABLE Category(
        category_id INT PRIMARY KEY,
@@ -9,7 +14,8 @@ CREATE TABLE Category(
 	   category_description TEXT
 );
 
--- Create Products table
+-- Create Products table--
+
 CREATE TABLE Products (
     product_id INT PRIMARY KEY,
     product_name VARCHAR(255),
@@ -19,7 +25,8 @@ CREATE TABLE Products (
     FOREIGN KEY (category_id) REFERENCES Category(category_id)
 );
 
--- Create Users table
+-- Create Users table--
+
 CREATE TABLE Users (
     user_id INT PRIMARY KEY,
     username VARCHAR(255),
@@ -27,7 +34,8 @@ CREATE TABLE Users (
     user_password VARCHAR(255)
 );
 
--- Create Orders table
+-- Create Orders table--
+
 CREATE TABLE Orders (
     order_id INT PRIMARY KEY,
     user_id INT,
@@ -37,7 +45,8 @@ CREATE TABLE Orders (
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
--- Create Order_Items table
+-- Create Order_Items table--
+
 CREATE TABLE Order_Items (
     order_item_id INT PRIMARY KEY,
     order_id INT,
@@ -49,7 +58,8 @@ CREATE TABLE Order_Items (
     FOREIGN KEY (product_id) REFERENCES Products(product_id)
 );
 
--- Create Inventory table
+-- Create Inventory table--
+
 CREATE TABLE Inventory (
     inventory_id INT PRIMARY KEY,
     product_id INT,
@@ -57,7 +67,7 @@ CREATE TABLE Inventory (
     FOREIGN KEY (product_id) REFERENCES Products(product_id)
 );
 
-
+--Inserting values in the Category table--
 
 INSERT INTO Category(category_id, category_name,category_description) VALUES
 (1,'Electronics','Electronic devices and gadgets'),
@@ -66,7 +76,7 @@ INSERT INTO Category(category_id, category_name,category_description) VALUES
 (4,'Books','Books and Publications'),
 (5,'Grocery','NonFood and Food items');
 
-
+--Inserting values in the Products table--
 
 INSERT INTO Products (product_id, product_name, product_description, product_price, category_id) VALUES
 (1, 'Smartphone', 'Latest smartphone with advanced features', 799.99, 1),
@@ -80,7 +90,7 @@ INSERT INTO Products (product_id, product_name, product_description, product_pri
 (9, 'Smart Watch', 'Fitness tracker and smartwatch with heart rate monitor', 199.99, 1),
 (10, 'Data Structures and Algorithms', 'Comprehensive guide to data structures and algorithms', 49.99, 4);
 
-
+--Inserting values in the Users table--
 
 INSERT INTO Users (user_id, username, email, user_password) VALUES
 (1, 'john_doe', 'john@example.com', 'password123'),
@@ -104,7 +114,7 @@ INSERT INTO Users (user_id, username, email, user_password) VALUES
 (19, 'daniel_kim', 'daniel@example.com', 'danielpass'),
 (20, 'sophia_ng', 'sophia@example.com', 'sophiapass');
 
-
+--Inserting values in the Orders table--
 
 INSERT INTO Orders (order_id, user_id, order_date, total_amount, order_status) VALUES
 (1, 1, '2024-03-02', 200.00, 'Completed'),
@@ -126,7 +136,7 @@ INSERT INTO Orders (order_id, user_id, order_date, total_amount, order_status) V
 (17, 16, '2024-03-18', 220.00, 'Completed'),
 (18, 5, '2024-03-19', 160.00, 'Pending');
 
-
+--Inserting values in the Order Items table--
 
 INSERT INTO Order_Items (order_item_id, order_id, product_id, quantity, item_price, subtotal) VALUES
 (1, 1, 1, 1, 75.00, 75.00),
@@ -148,7 +158,7 @@ INSERT INTO Order_Items (order_item_id, order_id, product_id, quantity, item_pri
 (17, 17, 7, 2, 200.00, 400.00),
 (18, 18, 6, 1, 95.00, 95.00);
 
-
+--Inserting values in the Inventory table--
 
 INSERT INTO Inventory (inventory_id, product_id, quantity_available) VALUES
 (1, 1, 20), 
@@ -157,7 +167,7 @@ INSERT INTO Inventory (inventory_id, product_id, quantity_available) VALUES
 (4, 4, 100),
 (5, 5, 200);
 
-
+--Checking all the tables--
 select * from Category
 
 select * from Products
@@ -170,7 +180,7 @@ select * from Order_Items
 
 select * from Inventory
 
- --Creating Stored Procedure Order status per user without product name--
+ --1. Creating Stored Procedure Order status per user without product name--
 
 CREATE PROCEDURE GetOrderSatatusperuser
 as
@@ -186,7 +196,7 @@ select u.user_id,
 
  exec GetOrderSatatusperuser;
  
- --Creating Stored Procedure to get Order status per user with product name--
+ --2. Creating Stored Procedure to get Order status per user with product name--
 
 create proc GetOrderSatatusforUser
 as
@@ -205,7 +215,7 @@ select u.user_id,
 
  exec GetOrderSatatusforUser;
 
- --Creating a Stored Procedure to get purchasing user name and product name for the give category of products--
+ --3. Creating a Stored Procedure to get purchasing user name and product name for the give category of products--
 
  create procedure Getusernamebypurchase @Category varchar(50)
 as
@@ -226,7 +236,7 @@ end
 exec Getusernamebypurchase @Category = 'Category Name'
 
 
- --Creating a Stored Procedure to get user_name, product name and product category for the give user ID--
+ --4.Creating a Stored Procedure to get user_name, product name and product category for the give user ID--
 
 
 create procedure GetProductforUser @userID int
